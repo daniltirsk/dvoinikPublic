@@ -1,0 +1,59 @@
+.gridFront { 
+	margin:1em; 
+	border-collapse:collapse; 
+	position:absolute;
+	right: 50px;
+}
+.gridFront td {
+    cursor:pointer;
+    width:30px; height:30px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+}
+.gridFront td.clicked {
+    background-color:yellow;
+    font-weight:bold; color:red;
+}
+
+.gridBack { 
+	margin:1em; 
+	border-collapse:collapse; 
+	position:absolute;
+	right: 70px;
+	top: 400px;
+}
+.gridBack td {
+    cursor:pointer;
+    width:25px; height:25px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+}
+.gridBack td.clicked {
+    background-color:yellow;
+    font-weight:bold; color:red;
+}
+
+.gridSelect { 
+	margin:1em; 
+	border-collapse:collapse; 
+	position:absolute;
+	left: 70px;
+	top: 10px;
+}
+.gridSelect td {
+    cursor:pointer;
+    width:25px; height:25px;
+    border:1px solid #ccc;
+    text-align:center;
+    font-family:sans-serif; font-size:13px
+}
+.gridSelect td.clicked {
+    background-color:yellow;
+    font-weight:bold; color:red;
+}
+
+img {
+	width: 28px;
+}
