@@ -1,4 +1,5 @@
 var lastClicked;
+var lastClickedType;
 
 var gridFrontArr = [];
 
@@ -44,7 +45,18 @@ var gridFront = clickableGrid(10,8,"gridFront",[],function(el,row,col,i){
     console.log("You clicked on item #:",i);
 
     el.className='clicked';
-    if (lastClicked) lastClicked.className='';
+    if (lastClicked) {
+        lastClicked.className=''
+        el.innerHTML = lastClicked.innerHTML;
+        var backCell = document.getElementsByClassName(i-1);
+        for (var i = 0; i < backCell.length; i++) {
+            if (backCell[i].parentNode.parentNode.classList.contains("gridBack")) {
+                console.log(i)
+                backCell[i].innerHTML = "<img src=." + lastClickedType.back + ">";
+            }
+        }
+        console.log(backCell);
+    };
     lastClicked = el;
 });
 
@@ -57,11 +69,9 @@ var gridBack = clickableGrid(10,8,"gridBack",[],function(el,row,col,i){
     console.log("You clicked on item #:",i);
 
     el.className='clicked';
-    if (lastClicked) {
-        lastClicked.className=''
-        el.innerHTML = lastClicked.innerHTML;
-    };
+    if (lastClicked) lastClicked.className='';
     lastClicked = el;
+
 });
 
 document.body.appendChild(gridBack);
@@ -77,6 +87,7 @@ var gridSelect = clickableGrid(10,2,"gridSelect", tileTypes,function(el,row,col,
     el.className='clicked';
     if (lastClicked) lastClicked.className='';
     lastClicked = el;
+    lastClickedType = tileTypes[i-1];
 });
 
 document.body.appendChild(gridSelect);
@@ -93,10 +104,8 @@ function clickableGrid( rows, cols, className, array, callback){
         for (var c=0;c<cols;++c){
             var cell = tr.appendChild(document.createElement('td'));
             cell.innerHTML = "";
-            cell.id = i++;
+            cell.classList.add(i++);
             if (ar < array.length) {
-                console.log(1);
-                console.log("<img src="+array[ar].front +">");
                 cell.innerHTML = "<img src=."+array[ar].front +">";
                 ar++;
             }
