@@ -50,9 +50,9 @@ function load_images() {
 }
 
 // Создаем три сетки (Вверхний вид, нижний вид, меню выбора маркера)
-createGrid(10, 8, "gridFront")
-createGrid(10, 8, "gridBack")
-createGrid(10, 2, "gridSelect", tileTypes)
+createGrid(8, 10, "gridFront")
+createGrid(8, 10, "gridBack")
+createGrid(5, 2, "gridSelect", tileTypes)
 
 // Создание сетки
 function createGrid(rows, cols, className, array = []) {
