@@ -157,6 +157,11 @@ function gridSelect(evt, i) {
 
 // Обработка левого клика
 window.addEventListener('click', function (evt) {
+
+    //обработка слайдера
+    if (evt.target.tagName === "INPUT"){
+         fieldRotate()
+    }
     if (evt.target.tagName === "IMG") {
         var lol = evt.target.parentElement.parentElement.parentElement.className;
 
@@ -186,3 +191,21 @@ window.addEventListener('contextmenu', function (evt) {
         }
     }
 });
+
+//обработка слайдера
+
+function fieldRotate(){
+    var chbox;
+    chbox=document.getElementById('field');
+
+    var front = document.getElementsByClassName('gridFront')[0];
+    var back = document.getElementsByClassName('gridBack')[0];
+    if (chbox.checked) {
+        front.style.display = 'none';
+        back.style.display = 'block';
+    }
+    else {
+        back.style.display = 'none';
+        front.style.display = 'block';
+    }
+}

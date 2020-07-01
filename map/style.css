@@ -1,10 +1,11 @@
-.gridFront { 
-	margin:1em;
+.gridFront {
+    margin:1em;
     position:absolute;
     top: 90px;
     left: 400px;
 }
 .gridFront td {
+
     cursor:pointer;
     width:90px; height:90px;
     border:2px solid #ccc;
@@ -18,8 +19,8 @@
 
 .gridBack {
     display: none;
-	margin:1em;
-	position:absolute;
+    margin:1em;
+    position:absolute;
     top: 90px;
     left: 400px;
 }
@@ -35,11 +36,11 @@
     font-weight:bold; color:red;
 }
 
-.gridSelect { 
-	margin:1em;
+.gridSelect {
+    margin:1em;
     position:absolute;
-	left: 80px;
-	top: 184px;
+    left: 80px;
+    top: 184px;
 }
 .gridSelect td {
     cursor:pointer;
@@ -78,10 +79,10 @@
 .switch {
     position: relative;
     display: inline-block;
-    width: 194px;
+    width: 124px;
     height: 40px;
     top:150px;
-    left: 90px;
+    left: 130px;
 }
 
 /* Hide default HTML checkbox */
@@ -129,7 +130,6 @@ input:checked  .gridFront{
 }
 
 input:checked + .slider:before {
-    transform: translateX(128px);
+    transform: translateX(58px);
 }
-
 
