@@ -1,36 +1,58 @@
+table {
+    border-spacing: 1;
+}
+
+td {
+    padding: 0;
+    line-height: 0;
+}
+
 .gridFront {
     margin:1em;
     position:absolute;
-    top: 90px;
+    top: 110px;
     left: 400px;
+    table-layout: fixed;
+    width: 537.6px;
 }
 .gridFront td {
 
     cursor:pointer;
-    width:90px; height:90px;
+    width:48px; height:48px;
     border:2px solid #ccc;
     text-align:center;
     font-family:sans-serif; font-size:13px
 }
+
+.gridFront tr{
+    line-height: 0;
+}
+
 .gridFront td.clicked {
     background-color:lightgreen;
     border-color:red;
 }
 
 .gridBack {
-    display: none;
     margin:1em;
     position:absolute;
-    top: 90px;
-    left: 400px;
+    top: 160px;
+    left: 1000px;
+    table-layout: fixed;
+    width: 377.6px;
 }
 .gridBack td {
     cursor: pointer;
-    width: 90px; height:90px;
+    width: 32px; height:32px;
     border: 2px solid #ccc;
     text-align: center;
     font-family: sans-serif; font-size:13px
 }
+
+.gridBack tr{
+    line-height: 0;
+}
+
 .gridBack td.clicked {
     background-color:yellow;
     font-weight:bold; color:red;
@@ -39,8 +61,8 @@
 .gridSelect {
     margin:1em;
     position:absolute;
-    left: 80px;
-    top: 184px;
+    left: 90px;
+    top: 154px;
 }
 .gridSelect td {
     cursor:pointer;
@@ -60,13 +82,13 @@
 }
 
 .gridBack img {
-    width: 88px;
-    height: 88px;
+    width: 32px;
+    height: 32px;
 }
 
 .gridFront img {
-    width: 88px;
-    height: 88px;
+    width: 48px;
+    height: 48px;
 }
 
 .gridSelect td:hover,.gridFront td:hover{
@@ -81,7 +103,7 @@
     display: inline-block;
     width: 124px;
     height: 40px;
-    top:150px;
+    top:120px;
     left: 130px;
 }
 
@@ -133,3 +155,72 @@ input:checked + .slider:before {
     transform: translateX(58px);
 }
 
+
+.flip-card-inner{
+    position: relative;
+    height: 48px;
+  transform-style: preserve-3d;
+     transition: transform 0.5s;
+}
+
+.flip-card-front{
+    backface-visibility: hidden;
+    position: relative;
+}
+
+.flip-card-back{
+    position: relative;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    top: -48px;
+}
+
+.flipped {
+    transition: transform 0.5s;
+  transform: rotateY(180deg) !important;;
+}
+
+.iconLamp{
+    width: 35px;
+    position: absolute;
+    left: 95px;
+    top: 125px;
+}
+
+.iconQR{
+    width: 35px;
+    position: absolute;
+    left: 272px;
+    top: 130px;
+}
+
+.eraseAllBtn {
+  padding: 16px 56.7px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition-duration: 0.4s;
+  font-size: 16px;
+  cursor: pointer;
+  position: absolute;
+  top: 660px;
+  left: 108px;
+}
+
+.eraseAllBtn {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #f44336;
+}
+
+.eraseAllBtn:hover {
+  background-color: #f44336;
+  color: white;
+}
+
+.eraseAllBtn:active {
+  background-color: #2196F3;
+  /*box-shadow: 0 5px #666;*/
+ /* transform: translateY(4px);*/
+ transform: scale(0.95);
+}

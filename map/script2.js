@@ -10,33 +10,47 @@ const gridY = 10
 var lastClicked;
 var lastClickedType;
 
-var gridFrontArr = [];
+var gridArr = [];
+
+var flipped = false;
 
 for (var i = 0; i < gridY; i++) {
     nArr = [];
     for (var j = 0; j < gridX; j++) {
         nArr.push(null);
     }
-    gridFrontArr.push(nArr);
+    gridArr.push(nArr);
 }
 
 var tileTypes = [];
 
 // Класс маркеров (Картинка сверху, Картинка снизу)
 class Tile {
-    constructor(front, back) {
+    constructor(front, back, name, markerID) {
         this.front = front;
         this.back = back;
+        this.name = name;
+        this.markerID = markerID;
+        // this.position = 0;
     }
+
+    // rotate(){
+    //     if (this.position > 3) {
+    //         this.position = this.position%4;
+    //     } else {
+    //         this.position++;
+    //     }
+    // }
+
 }
 
 // Маркеры
 var images = {
-    "lamp": new Tile("/png/lamp.png", "/png/QR-1.png"),
-    "buzzer": new Tile("/png/buzzer.png", "/png/QR-2.png"),
-    "battery": new Tile("/png/battery.png", "/png/QR-3.png"),
-    "cell": new Tile("/png/cell.png", "/png/QR-4.png"),
-    "fuse": new Tile("/png/fuse.png", "/png/QR-5.png"),
+    "lamp": new Tile("/png/lamp.png", "/png/QR-1.png","lamp",0),
+    "buzzer": new Tile("/png/buzzer.png", "/png/QR-2.png","buzzer",1),
+    "battery": new Tile("/png/battery.png", "/png/QR-3.png","battery",2),
+    "cell": new Tile("/png/cell.png", "/png/QR-4.png","cell",3),
+    "fuse": new Tile("/png/fuse.png", "/png/QR-5.png","fuse",4),
 }
 
 // Заполняем массив tileTypes
@@ -45,7 +59,6 @@ load_images();
 function load_images() {
     for (key in images) {
         tileTypes.push(images[key]);
-        console.log(tileTypes)
     }
 }
 
@@ -85,60 +98,91 @@ function gridFront(evt) {
 
     if (lastClicked) {
         ls = lastClicked.innerHTML;
-        el.innerHTML = lastClicked.innerHTML;
+        el.innerHTML = '<div class="flip-card"> <div class="flip-card-inner"> <div class="flip-card-front"> <img src=".' + lastClickedType.front + '"> </div> <div class="flip-card-back"> <img src=".' + lastClickedType.back + '"> </div> </div> </div>'
         el.firstChild.style.transform = 'rotate(0deg)'
 
-        console.log(lastClickedType.back)
+        if (flipped){
+            el.firstChild.children[0].classList.add('flipped');
+        }
 
-        var backCell = document.getElementsByClassName(el.className);
-        console.log(el.className)
+        gridArr[el.className%gridY][Math.floor(el.className/gridY)] = [];
+        gridArr[el.className%gridY][Math.floor(el.className/gridY)].push(lastClickedType,0);
+        // console.log(el.className%gridY);
+        // console.log(Math.floor(el.className/gridY));
+        var backCellNumber = +el.className + gridY - 1 - el.className%gridY*2;
+        var backCell = document.getElementsByClassName(backCellNumber);
+
         for (var i = 0; i < backCell.length; i++) {
             if (backCell[i].parentNode.parentNode.classList.contains("gridBack")) {
-                console.log(i)
-                console.log(backCell[i].innerHTML)
                 backCell[i].innerHTML = "<img src=." + lastClickedType.back + ">";
+                backCell[i].style.transform = 'rotate(0deg)';
             }
         }
-        console.log(backCell);
     };
+    console.log(gridArr);
 };
 
 // Удаление маркера из сетки
 function gridFrontRemove(evt) {
-    el = evt.target;
+    el = evt.target.parentElement.parentElement.parentElement.parentElement;
 
-    var backCell = document.getElementsByClassName(el.parentNode.className);
-    console.log(backCell);
+    var frontCell = document.getElementsByClassName(el.className);
+
+    for (var i = frontCell.length - 1; i >= 0; i--) {
+        if (frontCell[i].parentNode.parentNode.classList.contains("gridFront")) {
+            frontCell[i].childNodes[0].remove();
+        }
+    }
+
+    gridArr[el.className%gridY][Math.floor(el.className/gridY)] = null;
+
+    var backCellNumber = +el.className + gridY - 1 - el.className%gridY*2;
+    var backCell = document.getElementsByClassName(backCellNumber);
+
     for (var i = 0; i < backCell.length; i++) {
         if (backCell[i].parentNode.parentNode.classList.contains("gridBack")) {
-            console.log(i)
-            console.log(backCell[i].innerHTML)
             backCell[i].firstChild.remove();
         }
     }
 
-    evt.target.remove()
 }
 
 // Поворот маркера
 function gridFrontRotate(evt) {
-    el = evt.target;
-    console.log(el)
-    console.log(el.style.transform)
+    el = evt.target.parentElement.parentElement.parentElement;
 
+    var backCellNumber = +el.parentElement.className + gridY - 1 - el.parentElement.className%gridY*2;
+    var backCell = document.getElementsByClassName(backCellNumber);
+    var targetBackCell;
+
+    for (var i = 0; i < backCell.length; i++) {
+        if (backCell[i].parentNode.parentNode.classList.contains("gridBack")) {
+            targetBackCell = backCell[i];
+        }
+    }
+    
     switch (el.style.transform) {
         case 'rotate(0deg)':
             el.style.transform = 'rotate(90deg)';
+            targetBackCell.style.transform = 'rotate(90deg)';
+            gridArr[el.parentElement.className%gridY][Math.floor(el.parentElement.className/gridY)][1] = 1;
             break;
         case 'rotate(90deg)':
             el.style.transform = 'rotate(180deg)';
+            targetBackCell.style.transform = 'rotate(180deg)';
+            gridArr[el.parentElement.className%gridY][Math.floor(el.parentElement.className/gridY)][1] = 2;
             break;
         case 'rotate(180deg)':
             el.style.transform = 'rotate(270deg)';
+            targetBackCell.style.transform = 'rotate(270deg)';
+            gridArr[el.parentElement.className%gridY][Math.floor(el.parentElement.className/gridY)][1] = 3;
             break;
         default:
             el.style.transform = 'rotate(0deg)';
+            targetBackCell.style.transform = 'rotate(0deg)';
+            gridArr[el.parentElement.className%gridY][Math.floor(el.parentElement.className/gridY)][1] = 0;
     }
+    console.log(gridArr);
 }
 
 // Выбор маркера
@@ -163,7 +207,12 @@ window.addEventListener('click', function (evt) {
          fieldRotate()
     }
     if (evt.target.tagName === "IMG") {
-        var lol = evt.target.parentElement.parentElement.parentElement.className;
+        var lol;
+        if (evt.target.parentElement.className == 'flip-card-front' || evt.target.parentElement.className == 'flip-card-back') {
+            lol = evt.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.className;
+        } else {
+            lol = evt.target.parentElement.parentElement.parentElement.className;
+        }
 
         if (lol === "gridFront") {
             window[lol + "Rotate"](evt);
@@ -184,7 +233,8 @@ window.addEventListener('click', function (evt) {
 // Обработка правого
 window.addEventListener('contextmenu', function (evt) {
     if (evt.target.tagName === "IMG") {
-        var lol = evt.target.parentElement.parentElement.parentElement.className;
+        var lol = evt.target.parentElement.parentElement.parentElement;
+        lol = lol.parentElement.parentElement.parentElement.className;
 
         if (lol === "gridFront") {
             window[lol + "Remove"](evt);
@@ -198,14 +248,53 @@ function fieldRotate(){
     var chbox;
     chbox=document.getElementById('field');
 
-    var front = document.getElementsByClassName('gridFront')[0];
-    var back = document.getElementsByClassName('gridBack')[0];
+    var front = document.getElementsByClassName('flip-card-inner');
     if (chbox.checked) {
-        front.style.display = 'none';
-        back.style.display = 'block';
+        flipped = true;
+        for (var i = front.length - 1; i >= 0; i--) {
+            if (front[i].classList.contains('flipped')){
+                front[i].classList.remove("flipped");
+            }
+            else {
+                front[i].classList.add("flipped");
+            }
+        }
+    } else {
+        flipped = false;
+        for (var i = front.length - 1; i >= 0; i--) {
+            if (front[i].classList.contains('flipped')){
+                front[i].classList.remove("flipped");
+            }
+            else {
+                front[i].classList.add("flipped");
+            }
+        }
     }
-    else {
-        back.style.display = 'none';
-        front.style.display = 'block';
+}
+
+//кнопка отчистки
+
+var eraseAllBtn = document.getElementById('erase').addEventListener("click", eraseAll);
+
+function eraseAll(){
+    var event = new MouseEvent('contextmenu', {
+        'view': window,
+        'bubbles': true,
+        'cancelable': true
+    });
+    
+    for (var i = 0; i < gridY; i++) {
+        for (var j = 0; j < gridX; j++) {
+            if (gridArr[i][j]){
+                gridArr[i][j] = null;
+                var cells = document.getElementsByClassName(j*gridY + i);
+                console.log(cells);
+                for (var k = cells.length - 1; k >= 0; k--) {
+                    if (cells[k].parentElement.parentElement.classList.contains("gridFront")){
+                        cells[k].querySelector(".flip-card-front img").dispatchEvent(event);
+                    }
+                }
+            }
+        }
     }
 }
