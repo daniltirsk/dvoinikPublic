@@ -342,34 +342,50 @@ function eraseAll(){
 
 // эксперементальные кнопки для эксперементальных функций (просто чтоб функции тестить)
 
-// var tr1 = document.getElementById("try").addEventListener("click", getBackCanvas);
-// var tr2 = document.getElementById("try2").addEventListener("click", firs);
+
+ var tr1 = document.getElementById("try").addEventListener("click", try2);
+ var tr2 = document.getElementById("try2").addEventListener("click", try1);
 
 
 
 var canv;
-// создание канваса
-function getBackCanvas(){
-    html2canvas(document.getElementById("gridBack")).then(function(canvas) {
-    canvas.id = "gridBackCanv";
-    document.getElementById('canvas').appendChild(canvas);
-    canv = canvas;
-    });
+var canvCont;
+var matrix;
+// эксперементальная функция(аффинные преобразования)
+function try2(){
+    matrix = new Matrix(canvCont);
+    canvCont.clearRect(0,0,472,378);
+    matrix.rotate(0.7);
 }
+function try1() {
+      var canvas = document.getElementById('canvas');
+      console.log(canvas);
+      if (canvas.getContext) {
+        console.log('hey');
+        var ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = 'rgb(200, 0, 0)';
+        ctx.fillRect(10, 10, 50, 50);
+
+        ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
+        ctx.fillRect(30, 30, 50, 50);
+      }
+    }
+
+
 // изменение канваса(на данный момент просто его пересоздание)
 function changeCanv(){
     html2canvas(document.getElementById("gridBack")).then(function(canvas) {
-    canvas.id = "gridBackCanv";
-    var el = document.getElementById('gridBackCanv');
-    el.parentElement.removeChild(el);
-    document.getElementById('canvas').appendChild(canvas);
+    canvCont = document.getElementById('canvas').getContext('2d');
+    // canvCont.imageSmoothingEnabled = false;
+    canvCont.drawImage(canvas,0,0);
     canv = canvas;
     });
 }
 
 
 // получаем изначальный канвас(пустой без маркеров)
-getBackCanvas();
+changeCanv();
 
 
 // получение пнг изображения с канваса
@@ -385,41 +401,61 @@ function getImg(){
 
 // функции для получения данных с цифрового двойника
 
- function f0(){
-    console.log(0);
-    var response = [];
-    for (var i = 0; i < gridY; i++) {
-        for (var j = 0; j < gridX; j++) {
-            if(gridArr[i][j]){
-                response.push({
-                    x: j,
-                    y: i,
-                    id: gridArr[i][j][0].markerID
-                });
-            }
-        }
-    }
-    response = JSON.stringify(response);
-    console.log(response);
 
+async function f0(){
+    console.log(0);
+    // var response = [];
+    // for (var i = 0; i < gridY; i++) {
+    //     for (var j = 0; j < gridX; j++) {
+    //         if(gridArr[i][j]){
+    //             response.push({
+    //                 x: j,
+    //                 y: i,
+    //                 id: gridArr[i][j][0].markerID
+    //             });
+    //         }
+    //     }
+    // }
+    // response = JSON.stringify(response);
+    // console.log(response);
+
+
+    let response = await fetch("http://localhost:3000");
+if (response.ok) { // если HTTP-статус в диапазоне 200-299
+  // получаем тело ответа (см. про этот метод ниже)
+  let json = await response.text();
+  console.log(response.status);
+  console.log(json);
+} else {
+  alert("Ошибка HTTP: " + response.status);
+}
  }
 
-  function f1(){
+  async function f1(){
     console.log(1);
-    var response = [];
-    for (var i = 0; i < gridY; i++) {
-        for (var j = 0; j < gridX; j++) {
-            if(gridArr[i][j]){
-                response.push({
-                    x: j,
-                    y: i,
-                    r: gridArr[i][j][1]
-                });
-            }
-        }
-    }
-    response = JSON.stringify(response);
-    console.log(response);
+    // var response = [];
+    // for (var i = 0; i < gridY; i++) {
+    //     for (var j = 0; j < gridX; j++) {
+    //         if(gridArr[i][j]){
+    //             response.push({
+    //                 x: j,
+    //                 y: i,
+    //                 r: gridArr[i][j][1]
+    //             });
+    //         }
+    //     }
+    // }
+    // response = JSON.stringify(response);
+    // console.log(response);
+    let response = await fetch("http://localhost:3000/getMarkersPosition");
+    if (response.ok) { // если HTTP-статус в диапазоне 200-299
+  // получаем тело ответа (см. про этот метод ниже)
+  let json = await response.json();
+  console.log(response.status);
+  console.log(json);
+} else {
+  alert("Ошибка HTTP: " + response.status);
+}
  }
 //функция не работает если запускать сайт из файловой системы, запускай через сервер (localhost)
    function f2(){
@@ -517,4 +553,5 @@ function getImg(){
   for (var i = ebuttons.length - 1; i >= 0; i--) {
      ebuttons[i].addEventListener("click", effects[i]);
  }
+
 

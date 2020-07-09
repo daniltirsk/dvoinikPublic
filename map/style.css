@@ -288,9 +288,13 @@ input:checked + .slider:before {
  transform: scale(0.95);
 }
 
+#canvas{
+    width: 378px;
+    height: 303px;
+    border: 1px solid black;
+}
 
-
-#canvas {
+#canvasBox {
     width: 378px;
     height: 303px;
     position: absolute;
