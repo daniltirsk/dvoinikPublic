@@ -15,8 +15,6 @@
 		<img src="./png/qrIcon.png" alt="" class="iconQR">
 	</div>
 	<a href="#" class="eraseAllBtn btn" id="erase">Отчистить</a>
-	<a href="#" id="try">try</a>
-	<a href="#" id="try2">try2</a>
 	<div id="canvasBox">
 		<canvas id="canvas" width="472"
     height="378"></canvas>
@@ -24,27 +22,29 @@
 
 	<div class="buttons">
 		<div class="functions">
-			<a href="javascript:;" class="btn" id="f0">Расположение маркеров</a>
-			<a href="javascript:;" class="btn" id="f1">Поворот маркеров</a>
-			<a href="javascript:;" class="btn" id="f2">Поле для проекции</a>
-			<a href="javascript:;" class="btn" id="f3">Картинки всех маркеров</a>
-			<a href="javascript:;" class="btn" id="f4">Загрузка внешнего вида маркера</a>
-			<a href="javascript:;" class="btn" id="f5">Измененные ячейки</a>
-			<a href="javascript:;" class="btn" id="f6">Картинка маркера</a>
+			<a href="javascript:;" class="btn" id="f0">Инф о маркерах на поле</a>
+			<a href="javascript:;" class="btn" id="f1">Поле для проекции</a>
+			<a href="javascript:;" class="btn" id="f2">Картинки всех маркеров</a>
+			<a href="javascript:;" class="btn" id="f3">Загрузка внешнего вида маркера</a>
+			<a href="javascript:;" class="btn" id="f4">Измененные ячейки</a>
+			<a href="javascript:;" class="btn" id="f5">Картинка маркера</a>
 		</div>
-		<div class="effects">
-			<a href="javascript:;" class="btn" id="e0">Блюр</a>
-			<a href="javascript:;" class="btn" id="e1">e1</a>
-			<a href="javascript:;" class="btn" id="e2">e2</a>
-			<a href="javascript:;" class="btn" id="e3">e3</a>
-			<a href="javascript:;" class="btn" id="e4">e4</a>
-			<a href="javascript:;" class="btn" id="e5">e5</a>
-			<a href="javascript:;" class="btn" id="e6">e5</a>
-		</div>
+	</div>
+	<div class="dropdown">
+	  <button onclick="showEffectsMenu()" class="dropbtn">Camera effects</button>
+	  <div id="myDropdown" class="dropdown-content">
+	    <div class="effBtn"><a href="javascript:;" id="e0">Rotate(deg)</a> <input type="number" id="i0"></div>
+	    <div class="effBtn"><a href="javascript:;" id="e1">Scale</a><input type="number" id="i1" value="1"> <input type="number" id="i11" value="1"></div>
+       <div class="effBtn"><a href="javascript:;" id="e2">Skew</a><input type="number" id="i2" value="1"> <input type="number" id="i22" value="1"></div>
+       <div class="effBtn"><a href="javascript:;" id="e3">Blur</a> <input type="number" id="i3"></div>
+       <div class="effBtn"><a href="javascript:;" id="e4">Matrix</a><input type="number" id="i40" value="1"> <input type="number" id="i41" value="1"><input type="number" id="i42" value="1"> <input type="number" id="i43" value="1"><input type="number" id="i44" value="1"> <input type="number" id="i45" value="1"></div>
+       <div class="effBtn"><a href="javascript:;" id="e5">Perspective(p,r)</a><input type="number" id="i50" value="1"> <input type="number" id="i51" value="1"></div>
+       <div class="effBtn"><a href="javascript:;" id="e6">e6</a> <input type="number" id="i6"
+       min="1" max="100"></div>
+	  </div>
 	</div>
 
 	<script src="html2canvas.js"></script>
-	<script src="matrix.js"></script>
 	<script src="script.js"></script>
 </body>
 </html>
