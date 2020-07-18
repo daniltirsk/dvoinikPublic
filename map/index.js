@@ -33,6 +33,26 @@ var rawParser = bodyParser.raw();
 const gridX = 8;
 const gridY = 10;
 
+
+function updateFieldChanges(nx,ny,ntypeOfChange){
+	var change = {
+	    	x:nx,
+	    	y:ny,
+	    	typeOfChange:ntypeOfChange
+	    }
+
+	var oldChange = gridChanges.find(obj => obj.x == change.x && obj.y == change.y);
+
+	if (oldChange){
+	 	gridChanges.find(obj => obj.x == change.x && obj.y == change.y).typeOfChange = change.typeOfChange;
+	} else {
+	    gridChanges.push(change);
+	}
+
+	fs.writeFileSync('fieldChanges.json', JSON.stringify(gridChanges), 'utf8');
+}
+
+
 //get запросы для получения данных с сервера
 
 app.get('/', (req, res) => {
@@ -72,6 +92,7 @@ app.post("/updateFieldAdd",(req, res) => {
 	    }
 	    grid.push(add);
 	    fs.writeFileSync('field.json', JSON.stringify(grid), 'utf8');
+	    updateFieldChanges(add.x,add.y,'marker added');
 	    res.status(200).send();
 	} else {
 		res.status(400).send("Wrong request, provide x,y,id,r");
@@ -90,7 +111,7 @@ app.post("/updateFieldRemove",(req, res) => {
 	    grid = grid.filter(obj => obj.x != del.x || obj.y != del.y);
 
 	    fs.writeFileSync('field.json', JSON.stringify(grid), 'utf8');
-
+	    updateFieldChanges(del.x,del.y,'marker deleted');
 	    res.status(200).send();
 	} else {
 		res.status(400).send("Wrong request, provide x,y");
@@ -108,36 +129,13 @@ app.post("/updateFieldRotate",(req, res) => {
 	    }
 	    grid.find(obj => obj.x == rot.x && obj.y == rot.y).r = rot.r;
 	    fs.writeFileSync('field.json', JSON.stringify(grid), 'utf8');
+	    updateFieldChanges(rot.x,rot.y,'marker rotated');
 	    res.status(200).send();
 	} else {
 		res.status(400).send("Wrong request, provide x,y,r");
 	}
 })
 
-app.post("/updateFieldChanges",(req, res) => {
-	console.log('change',req.body);
-	if (req.body.x != null && req.body.y != null && req.body.typeOfChange != null){
-		var change = {
-	    	x:req.body.x,
-	    	y:req.body.y,
-	    	typeOfChange:req.body.typeOfChange
-	    }
-
-	    var oldChange = gridChanges.find(obj => obj.x == change.x && obj.y == change.y);
-
-	    if (oldChange){
-	    	gridChanges.find(obj => obj.x == change.x && obj.y == change.y).typeOfChange = change.typeOfChange;
-	    } else {
-	    	gridChanges.push(change);
-	    }
-
-	    fs.writeFileSync('fieldChanges.json', JSON.stringify(gridChanges), 'utf8');
-
-	    res.status(200).send();
-	} else {
-		res.status(400).send("Wrong request, provide x,y,typeOfChange");
-	}
-})
 // обновление изображения поля
 app.post("/uploadFrontImg",(req, res) => {
 	console.log('img');
@@ -156,6 +154,7 @@ app.post('/uploadTileImg', upload.array('pic',2), function (req, res, next) {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
   res.status(200).send();
+  console.log(req.body);
   if(fs.existsSync(path.join(__dirname, "uploadTileImg",req.body.markerId + '.png'))){
   	fs.unlinkSync(path.join(__dirname, "uploadTileImg",req.body.markerId + '.png'));
   }

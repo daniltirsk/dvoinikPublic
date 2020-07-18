@@ -112,8 +112,7 @@ function gridFront(evt) {
         // добавление маркера в массив
         gridArr[el.className%gridY][Math.floor(el.className/gridY)] = [];
         gridArr[el.className%gridY][Math.floor(el.className/gridY)].push(lastClickedType,0);
-        // добавляем что в данной ячейке появился новый маркер
-        updateFieldChanges(Math.floor(el.className/gridY),el.className%gridY,'new marker');
+
         // добавляем маркер на нижнюю доску
         var backCellNumber = +el.className + gridY - 1 - el.className%gridY*2;
         var backCell = document.getElementsByClassName(backCellNumber);
@@ -148,8 +147,7 @@ function gridFrontRemove(evt) {
     }
 
     gridArr[el.className%gridY][Math.floor(el.className/gridY)] = null;
-    // произошло событие удаления, отмечаем это в массиве
-    updateFieldChanges(Math.floor(el.className/gridY),el.className%gridY,'marker deleted');
+
     //удаление с нижнего поля
     var backCellNumber = +el.className + gridY - 1 - el.className%gridY*2;
     var backCell = document.getElementsByClassName(backCellNumber);
@@ -209,8 +207,6 @@ function gridFrontRotate(evt) {
             //gridArr[el.parentElement.className%gridY][Math.floor(el.parentElement.className/gridY)][1] = 0;
             r = 0;
     }
-    //произошел поворот ячейки, отмечаем это в массиве
-    updateFieldChanges(Math.floor(el.parentElement.className/gridY),el.parentElement.className%gridY,'marker rotated');
 
     updateMarkerRotationServ(Math.floor(el.parentElement.className/gridY),el.parentElement.className%gridY,r);
 
@@ -380,7 +376,7 @@ var matrix;
 
 // изменение канваса(на данный момент просто его пересоздание)
 function changeCanv(){
-    html2canvas(document.getElementById("gridBack")).then(function(canvas) {
+    html2canvas(document.getElementById("gridBack"),allowTaint = true).then(function(canvas) {
         canvCont = document.getElementById('canvas').getContext('2d');
         // canvCont.imageSmoothingEnabled = false;
         canvCont.drawImage(canvas,0,0);
@@ -468,21 +464,6 @@ async function updateMarkerRotationServ(xn,yn,rn){
     });
 }
 
-async function updateFieldChanges(xn,yn,typeOfChangen){
-    let change = {
-        x:xn,
-        y:yn,
-        typeOfChange:typeOfChangen
-    }
-    console.log(change);
-    let response = await fetch("http://localhost:3000/updateFieldChanges", {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-    },
-    body: JSON.stringify(change)
-    });
-}
 
 async function loadField(){
     let response = await fetch("http://localhost:3000/getMarkersPosition");
