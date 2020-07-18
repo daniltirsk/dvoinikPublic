@@ -33,23 +33,19 @@ var rawParser = bodyParser.raw();
 const gridX = 8;
 const gridY = 10;
 
-// Массив хронящий изменения основного поля
-
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max));
-}
-
+//get запросы для получения данных с сервера
 
 app.get('/', (req, res) => {
-    res.send('Hello from Express!')
+    res.send('Hello from my server. I spent way too long working on this thing and it still is crap!')
 })
 
+// Получение информации о маркерах на поле, их координат, id и поворота
 app.get('/getMarkersPosition', (req, res) => {
   	res.json(grid);
   }
  )
 
+// получение последних изменений на поле, после запроса данные об изменениях обнуляються
 app.get('/getRecentChanges', (req, res) => {
   	res.json(gridChanges);
   	gridChanges = [];
@@ -57,11 +53,14 @@ app.get('/getRecentChanges', (req, res) => {
   }
  )
 
+// получение изображения поля
 app.get('/getFrontGridImg', (req, res) => {
     res.sendFile(path.join(__dirname, "out.png"));
 })
 
+// post запросы для обновления данных на сервере
 
+// добавление маркеров
 app.post("/updateFieldAdd",(req, res) => {
 	console.log('add',req.body);
 	if (req.body.x != null && req.body.y != null && req.body.id != null && req.body.r != null){
@@ -79,6 +78,7 @@ app.post("/updateFieldAdd",(req, res) => {
 	}
 })
 
+// удаление маркеров
 app.post("/updateFieldRemove",(req, res) => {
 	console.log('deletion',req.body);
 	if (req.body.x != null && req.body.y != null){
@@ -97,6 +97,7 @@ app.post("/updateFieldRemove",(req, res) => {
 	}
 })
 
+// обновление поворота маркера
 app.post("/updateFieldRotate",(req, res) => {
 	console.log('rotation',req.body);
 	if (req.body.x != null && req.body.y != null && req.body.r != null){
@@ -137,7 +138,7 @@ app.post("/updateFieldChanges",(req, res) => {
 		res.status(400).send("Wrong request, provide x,y,typeOfChange");
 	}
 })
-
+// обновление изображения поля
 app.post("/uploadFrontImg",(req, res) => {
 	console.log('img');
 	if (req.body){
@@ -147,10 +148,10 @@ app.post("/uploadFrontImg",(req, res) => {
 		});
 		res.status(200).send();
 	} else {
-		res.status(400).send("Wrong request, provide x,y,typeOfChange");
+		res.status(400).send("Wrong request");
 	}
 })
-
+// загрузка внешнего вида маркера
 app.post('/uploadTileImg', upload.array('pic',2), function (req, res, next) {
   // req.file is the `avatar` file
   // req.body will hold the text fields, if there were any
