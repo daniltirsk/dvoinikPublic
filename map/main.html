@@ -24,10 +24,7 @@
 		<div class="functions">
 			<a href="javascript:;" class="btn" id="f0">Инф о маркерах на поле</a>
 			<a href="javascript:;" class="btn" id="f1">Поле для проекции</a>
-			<a href="javascript:;" class="btn" id="f2">Картинки всех маркеров</a>
-			<a href="javascript:;" class="btn" id="f3">Загрузка внешнего вида маркера</a>
-			<a href="javascript:;" class="btn" id="f4">Измененные ячейки</a>
-			<a href="javascript:;" class="btn" id="f5">Картинка маркера</a>
+			<a href="javascript:;" class="btn" id="f2">Измененные ячейки</a>
 		</div>
 	</div>
 	<div class="dropdown">
@@ -37,11 +34,17 @@
 	    <div class="effBtn"><a href="javascript:;" id="e1">Scale</a><input type="number" id="i1" value="1"> <input type="number" id="i11" value="1"></div>
        <div class="effBtn"><a href="javascript:;" id="e2">Skew</a><input type="number" id="i2" value="1"> <input type="number" id="i22" value="1"></div>
        <div class="effBtn"><a href="javascript:;" id="e3">Blur</a> <input type="number" id="i3"></div>
-       <div class="effBtn"><a href="javascript:;" id="e4">Matrix</a><input type="number" id="i40" value="1"> <input type="number" id="i41" value="1"><input type="number" id="i42" value="1"> <input type="number" id="i43" value="1"><input type="number" id="i44" value="1"> <input type="number" id="i45" value="1"></div>
+       <div class="effBtn" id="matrix"><a href="javascript:;" id="e4">Matrix</a><input type="number" id="i40" value="1"> <input type="number" id="i41" value="1"><input type="number" id="i42" value="1"> <input type="number" id="i43" value="1"><input type="number" id="i44" value="1"> <input type="number" id="i45" value="1"></div>
        <div class="effBtn"><a href="javascript:;" id="e5">Perspective(p,r)</a><input type="number" id="i50" value="1"> <input type="number" id="i51" value="1"></div>
-       <div class="effBtn"><a href="javascript:;" id="e6">e6</a> <input type="number" id="i6"
-       min="1" max="100"></div>
 	  </div>
+	</div>
+	<div class="uploadTileImg">
+		<form action="http://localhost:3000/uploadTileImg" method="post" enctype="multipart/form-data">
+			<input type="file" id="myFile" name="tileImg">
+			<input type="number" id="markerId" min="1" max="5" name="markerId">
+			<span>Marker ID</span>
+			<input type="submit">
+		</form>
 	</div>
 
 	<script src="html2canvas.js"></script>

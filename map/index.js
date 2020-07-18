@@ -4,8 +4,20 @@ const path = require("path");
 const express = require('express');
 const cors = require('cors');
 var bodyParser = require('body-parser');
+var multer  = require('multer')
 const app = express();
 const port = 3000;
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, "uploadTileImg"));
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'new' + '.png')
+  }
+})
+
+var upload = multer({ storage: storage })
 
 var grid = fs.readFileSync("field.json");
 grid = JSON.parse(grid);
@@ -46,7 +58,7 @@ app.get('/getRecentChanges', (req, res) => {
  )
 
 app.get('/getFrontGridImg', (req, res) => {
-    res.sendFile('C:/Users/ASUS/Documents/GitHub/PracticeFirstCourseAppliedInformatics/map/out.png');
+    res.sendFile(path.join(__dirname, "out.png"));
 })
 
 
@@ -137,6 +149,18 @@ app.post("/uploadFrontImg",(req, res) => {
 	} else {
 		res.status(400).send("Wrong request, provide x,y,typeOfChange");
 	}
+})
+
+app.post('/uploadTileImg', upload.array('pic',2), function (req, res, next) {
+  // req.file is the `avatar` file
+  // req.body will hold the text fields, if there were any
+  res.status(200).send();
+  if(fs.existsSync(path.join(__dirname, "uploadTileImg",req.body.markerId + '.png'))){
+  	fs.unlinkSync(path.join(__dirname, "uploadTileImg",req.body.markerId + '.png'));
+  }
+  fs.renameSync(path.join(__dirname, "uploadTileImg",'new.png'), path.join(__dirname, "uploadTileImg",req.body.markerId + '.png'));
+
+
 })
 
 app.listen(port, (err) => {

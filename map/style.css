@@ -229,27 +229,23 @@ input:checked + .slider:before {
 }
 
 .buttons {
-    width: 530px;
-    height: 500px;
-    border: 2px solid blue;
     position: absolute;
     left: 420px;
-    top: 600px;
-    display: flex;
-    flex-direction: row;
+    top: 570px;
+
 }
 
 
 .functions{
     display: flex;
     flex-direction: column;
-    border: 2px solid blue;
-    width: 250px;
+    width: 200px;
     height: 100%;
 }
 
 .functions .btn{
     border: 2px solid blue;
+    padding: 5px;
 }
 
 .functions .btn:hover{
@@ -349,6 +345,7 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: row;
     align-items: center;
+
 }
 
 .effBtn input{
@@ -357,6 +354,49 @@ input:checked + .slider:before {
     margin-right: 5px;
 }
 
+#matrix{
+    display: grid;
+    grid-template-areas: "btn btn"
+                       "m1  m2"
+                       "m3  m4"
+                       "m5  m6";
+   
+    justify-items: center;
+}
+
+#matrix a{
+    text-align: center;
+}
+
+
+#e4{
+    grid-area: btn;
+}
+
+#i40{
+    grid-area: m1;
+}
+#i41{
+    grid-area: m2;
+}
+
+#i42{
+    grid-area: m3;
+}
+
+#i43{
+    grid-area: m4;
+}
+
+#i44{
+    grid-area: m5;
+}
+
+#i45{
+    grid-area: m6;
+}
+
+
 
 /* Change color of dropdown links on hover */
 .effBtn:hover {background-color: #ddd}
@@ -364,3 +404,16 @@ input:checked + .slider:before {
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
+
+
+.uploadTileImg{
+    position: absolute;
+    left: 680px;
+    top: 580px;
+    width: 200px;
+    line-height: 40px;
+}
+
+#markerId{
+    width: 30px;
+}

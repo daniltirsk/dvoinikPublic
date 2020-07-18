@@ -50,11 +50,11 @@ class Tile {
 
 // Маркеры
 var images = {
-    "lamp": new Tile("/png/lamp.png", "/png/QR-1.png","lamp",0),
-    "buzzer": new Tile("/png/buzzer.png", "/png/QR-2.png","buzzer",1),
-    "battery": new Tile("/png/battery.png", "/png/QR-3.png","battery",2),
-    "cell": new Tile("/png/cell.png", "/png/QR-4.png","cell",3),
-    "fuse": new Tile("/png/fuse.png", "/png/QR-5.png","fuse",4),
+    "0": new Tile("/uploadTileImg/1.png", "/png/QR-1.png","lamp",0),
+    "1": new Tile("/uploadTileImg/2.png", "/png/QR-2.png","buzzer",1),
+    "2": new Tile("/uploadTileImg/3.png", "/png/QR-3.png","battery",2),
+    "3": new Tile("/uploadTileImg/4.png", "/png/QR-4.png","cell",3),
+    "4": new Tile("/uploadTileImg/5.png", "/png/QR-5.png","fuse",4),
 }
 
 // Заполняем массив tileTypes
@@ -548,30 +548,8 @@ async function f1(){
     }
  }
 
-//функция не работает если запускать сайт из файловой системы, запускай через сервер (localhost)
-function f2(){
-    console.log(2);
-    var backs = document.getElementsByClassName("flip-card-back");
-    for (var i = backs.length - 1; i >= 0; i--) {
-        backs[i].style.display = 'none'
-    }
-    html2canvas(document.getElementById("gridFront")).then(function(canvas) {
-        var link = document.createElement('a');
-        link.download = 'filename.png';
-        link.href = canvas.toDataURL()
-        link.click();
-    });
-    for (var i = backs.length - 1; i >= 0; i--) {
-        backs[i].style.display = 'block';
-    }
- }
 
-
-  function f3(){
-    console.log(3);
- }
-
- async function f4(){
+ async function f2(){
      let response = await fetch("http://localhost:3000/getRecentChanges");
     if (response.ok) { 
       let json = await response.json();
@@ -582,18 +560,9 @@ function f2(){
     }
  }
 
-  function f5(){
-    
-
- }
-
-   function f6(){
-    console.log(6);
- }
-
 // привязываем функции к кнопкам
  var fbuttons = document.querySelectorAll(".buttons .functions .btn");
- var functions = [f0,f1,f2,f3,f4,f5,f6]
+ var functions = [f0,f1,f2]
 
   for (var i = fbuttons.length - 1; i >= 0; i--) {
      fbuttons[i].addEventListener("click", functions[i]);
@@ -606,7 +575,7 @@ function f2(){
 
 
 // привязываем функции к кнопкам
- var effects = [e0,e1,e2,e3,e4,e5,e6]
+ var effects = [e0,e1,e2,e3,e4,e5]
 
   var ebuttons = document.querySelectorAll(".effBtn a");
 
@@ -673,9 +642,7 @@ function showEffectsMenu() {
     canvas.style.transformStyle = 'preserve-3d';
     canvas.style.transform = "perspective("+a1+"px) rotateX("+a2+"deg)";
 }
- function e6(){
-    canv.style.filter = "blur(1px)";
-}
+
 
 
 // Close the dropdown menu if the user clicks outside of it
