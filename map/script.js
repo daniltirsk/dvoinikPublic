@@ -556,7 +556,7 @@ async function f1(){
 
 
 // привязываем функции к кнопкам
- var effects = [e0,e1,e2,e3,e4,e5]
+ var effects = [e0,e1,e2,e3,e4,e5,e6]
 
   var ebuttons = document.querySelectorAll(".effBtn a");
 
@@ -616,9 +616,19 @@ function showEffectsMenu() {
     changeCanv();
 
 }
+
  function e5(){
     var a1 = document.getElementById("i50").value;
     var a2 = document.getElementById("i51").value;
+    canvCont.clearRect(0,0,472,378);
+    canvCont.translate(a1,a2);
+    changeCanv();
+}
+
+
+ function e6(){
+    var a1 = document.getElementById("i60").value;
+    var a2 = document.getElementById("i61").value;
     var canvas = document.getElementById("canvas");
     canvas.style.transformStyle = 'preserve-3d';
     canvas.style.transform = "perspective("+a1+"px) rotateX("+a2+"deg)";
